@@ -11,8 +11,6 @@
 
 	let key = "default";
 
-	let width = $state(600);
-
 	const groupContext = getGroupContext(key);
 
 	let sorted_nodes = $derived(
@@ -23,11 +21,8 @@
 <style>
 	.container {
 		position: relative;
-		width: 200px;
-		min-height: 600px;
-		/* border: 1px solid #ccc; */
-		/* margin: 20px auto; */
-		font-family: Arial, Helvetica, sans-serif;
+		aspect-ratio: 1 / 1;
+		max-width: 800px;
 	}
 
 	img {
@@ -37,11 +32,26 @@
 </style>
 
 <div
-	class="l-sidebar e-sidebar-on-right"
-	style="--sidebar-width--component: 40%; --sidebar-content-min-width--component: 50%"
+	class="l-sidebar e-sidebar-on-right u-padding-block u-padding-inline u-column"
+	style="
+		--sidebar-width--component: 30%;
+		--sidebar-content-min-width--component: 35%;
+		--sidebar-space: var(--s4);
+		--padding-block: var(--s2);
+	"
 >
-	<div class="container" bind:offsetWidth={width} style="background: #C7E9B2;">
-		<Canvas {key} {width} height={width} dpr={2} paddingLeft={0} paddingTop={0}>
+	<div
+		class="container"
+		bind:offsetWidth={groupContext.containerWidth}
+	>
+		<Canvas
+			{key}
+			width={groupContext.containerWidth}
+			height={groupContext.containerWidth}
+			dpr={2}
+			paddingLeft={groupContext.padding.left}
+			paddingTop={groupContext.padding.top}
+		>
 			{#each groupContext.edges as edge}
 				<Arrow
 					{key}
@@ -76,10 +86,10 @@
 		</Canvas>
 
 		<HTML
-			paddingLeft={0}
-			paddingTop={0}
-			paddingBottom={0}
-			paddingRight={0}
+			paddingLeft={groupContext.padding.left}
+			paddingTop={groupContext.padding.top}
+			paddingBottom={groupContext.padding.bottom}
+			paddingRight={groupContext.padding.right}
 			pointerEvents={true}
 		>
 			{#each groupContext.nodes_with_positions as node (node.id)}

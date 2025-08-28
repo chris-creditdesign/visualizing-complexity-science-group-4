@@ -66,6 +66,8 @@
 		left: 0;
 		width: 100%;
 		height: auto;
+		background: #C7E9B2;
+		border-radius: var(--s1);
 	}
 </style>
 

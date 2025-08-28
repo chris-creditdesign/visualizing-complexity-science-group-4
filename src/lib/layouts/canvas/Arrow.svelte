@@ -8,7 +8,7 @@
 		startY: number;
 		endX: number;
 		endY: number;
-		curvature: number;
+		curvature?: number;
 		lineWidth?: number;
 		arrowHeadSize?: number;
 		opacity?: number;

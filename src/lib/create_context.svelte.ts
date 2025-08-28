@@ -5,8 +5,27 @@ import { computeEqualityEquity } from "$lib/utilities/compute-equality_equity";
 
 class GroupContext {
 	nodes: { id: number; group: string; score: 0; name: string, img: string }[] = $state([]);
-
 	edges: { id: string; source: number; target: number }[] = $state([]);
+
+	containerWidth = $state(300);
+
+	// Derived state
+	padding = $derived(
+		{
+			top: this.containerWidth * 0.05,
+			bottom: this.containerWidth * 0.05,
+			left: this.containerWidth * 0.05,
+			right: this.containerWidth * 0.05,
+		}
+	);
+
+	height = $derived(
+		this.containerWidth - this.padding.top - this.padding.bottom
+	);
+
+	width = $derived(
+		this.containerWidth - this.padding.left - this.padding.right
+	);
 
 	mag_homophily: number[] = $state([]);
 	min_homophily: number[] = $state([]);
@@ -14,14 +33,13 @@ class GroupContext {
 	inequity_ME: number[] = $state([]);
 
 	// layout config (keep in sync with Canvas props below)
-	canvasWidth = 800;
-	canvasHeight = 600;
+	// canvasWidth = 800;
+	// canvasHeight = 600;
 	radius = 40;
-	margin = 100;
 
-	centerX = this.canvasWidth / 2;
-	centerY = this.canvasHeight / 2;
-	ringRadius = Math.min(this.canvasWidth, this.canvasHeight) / 2 - this.margin;
+	centerX = $derived(this.width / 2);
+	centerY = $derived(this.height / 2);
+	ringRadius = $derived(Math.min(this.width, this.height) / 2 - this.padding.left - this.padding.right);
 
 	// distance to push the arrow past the target center (radius + padding)
 	arrowPadding = 4;
