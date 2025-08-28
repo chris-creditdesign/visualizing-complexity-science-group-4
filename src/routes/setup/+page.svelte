@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import { getGroupContext } from "$lib/create_context.svelte";
+	import { generateNetworkDPAH } from "$lib/utilities/generate_network_dpah";
+	import { pagerank } from "$lib/utilities/page_rank";
 
 	const groupContext = getGroupContext("default");
 
@@ -28,168 +30,6 @@
 		setupStore.numMinority = numMinority;
 		setupStore.names = names;
 
-		// ---------------------------------------------
-		// PageRank
-		// ---------------------------------------------
-		function pagerank(
-			n,
-			edges,
-			{ alpha = 0.85, tol = 1e-9, maxIter = 100 } = {}
-		) {
-			const outDeg = Array(n).fill(0);
-			const adjOut = Array.from({ length: n }, () => []);
-			for (const { source: u, target: v } of edges) {
-				adjOut[u].push(v);
-				outDeg[u]++;
-			}
-
-			let pr = Array(n).fill(1 / n);
-
-			for (let it = 0; it < maxIter; it++) {
-				const next = Array(n).fill((1 - alpha) / n);
-
-				for (let u = 0; u < n; u++) {
-					if (outDeg[u] === 0) {
-						const share = (alpha * pr[u]) / n; // dangling — spread uniformly
-						for (let v = 0; v < n; v++) next[v] += share;
-					} else {
-						const share = (alpha * pr[u]) / outDeg[u];
-						for (const v of adjOut[u]) next[v] += share;
-					}
-				}
-
-				let delta = 0;
-				for (let i = 0; i < n; i++) delta += Math.abs(next[i] - pr[i]);
-				pr = next;
-				if (delta < tol) break;
-			}
-
-			return pr;
-		}
-
-		// ---- seeded RNG (deterministic) ----
-		function mulberry32(seed) {
-			let t = seed >>> 0;
-			return function () {
-				t += 0x6d2b79f5;
-				let r = Math.imul(t ^ (t >>> 15), 1 | t);
-				r ^= r + Math.imul(r ^ (r >>> 7), 61 | r);
-				return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
-			};
-		}
-
-		// Continuous truncated power-law on [1, xmax], PDF ~ x^(-gamma)
-		function samplePowerLaw(gamma, rng, xmax = 100) {
-			const u = rng();
-			if (Math.abs(gamma - 1.0) < 1e-12) return Math.pow(xmax, u);
-			const oneMinusGamma = 1 - gamma;
-			const base = u * (Math.pow(xmax, oneMinusGamma) - 1) + 1;
-			return Math.pow(base, 1 / oneMinusGamma);
-		}
-
-		function rouletteIndex(weights, rng) {
-			const s = weights.reduce((a, b) => a + b, 0);
-			if (s <= 0) return Math.floor(rng() * weights.length);
-			let x = rng() * s;
-			for (let i = 0; i < weights.length; i++) {
-				x -= weights[i];
-				if (x <= 0) return i;
-			}
-			return weights.length - 1;
-		}
-
-		// ---------------------------------------------
-		// DPAH edge generator + PageRank scoring
-		// ---------------------------------------------
-		/**
-		 * Mutates nodes[i].score with PageRank. Returns {edges, ranking}.
-		 * nodes: { id:number; group:'mag'|'min'; score:number; name:string }[]
-		 */
-		function generateNetworkDPAH(
-			nodes,
-			numEdges,
-			{
-				seed = 123,
-				h_MM = 0.8,
-				h_mm = 0.5,
-				gamma_M = 3.0,
-				gamma_m = 3.0,
-				alpha = 0.85, // PageRank damping
-				tol = 1e-9,
-				maxIter = 100,
-			} = {}
-		) {
-			const n = nodes.length;
-			const rng = mulberry32(seed);
-
-			// map labels -> 'M'/'m'
-			const groupKey = (g) => (g === "mag" ? "M" : "m");
-			const groups = nodes.map((d) => groupKey(d.group));
-
-			const H = {
-				"M|M": h_MM,
-				"m|m": h_mm,
-				"M|m": 1 - h_MM,
-				"m|M": 1 - h_mm,
-			};
-
-			// activity-driven source probs (power-law per group)
-			const activities = groups.map((g) =>
-				samplePowerLaw(g === "M" ? gamma_M : gamma_m, rng)
-			);
-			const actSum = activities.reduce((a, b) => a + b, 0) || 1;
-			const srcProbs = activities.map((a) => a / actSum);
-
-			// grow edges
-			const inDeg = Array(n).fill(0);
-			const edges = [];
-
-			for (let t = 0; t < numEdges; t++) {
-				const u = rouletteIndex(srcProbs, rng);
-
-				// target weights: ∝ homophily(u,v) * k_in(v)
-				const w = Array(n).fill(0);
-				for (let v = 0; v < n; v++) {
-					if (v === u) continue;
-					const hij = H[`${groups[u]}|${groups[v]}`];
-					w[v] = hij * inDeg[v];
-				}
-				let s = w.reduce((a, b) => a + b, 0);
-
-				// cold start: homophily-only
-				if (s === 0) {
-					for (let v = 0; v < n; v++)
-						w[v] = v === u ? 0 : H[`${groups[u]}|${groups[v]}`];
-				}
-
-				const v = rouletteIndex(w, rng);
-
-				edges.push({
-					id: `${u}-${v}-${t}`,
-					source: nodes[u].id,
-					target: nodes[v].id,
-				});
-				inDeg[v] += 1;
-			}
-
-			// PageRank and write back to nodes
-			const pr = pagerank(n, edges, { alpha, tol, maxIter });
-			for (let i = 0; i < n; i++) nodes[i].score = pr[i];
-
-			// convenient ranking
-			const ranking = nodes
-				.map((d, i) => ({
-					player_id: d.id,
-					name: d.name,
-					group: d.group,
-					score: pr[i],
-				}))
-				.sort((a, b) => b.score - a.score)
-				.map((r, idx) => ({ ...r, rank: idx + 1 }));
-
-			return { edges, ranking };
-		}
-
 		let generateNodes = (
 			numPlayers: number,
 			numMinority: number,
@@ -213,16 +53,20 @@
 			setupStore.names
 		);
 
-		const { edges, ranking } = generateNetworkDPAH(nodes, 12, {
+		const edges = generateNetworkDPAH(nodes, 12, {
 			seed: 42,
 			h_MM: 0.8,
 			h_mm: 0.5,
 			gamma_M: 3.0,
 			gamma_m: 3.0,
-			alpha: 0.85,
 		});
 
-		console.log("Generated ranking:", ranking);
+		// PageRank and write back to nodes
+		const pr = pagerank(nodes.length, edges);
+
+		for (let i = 0; i < nodes.length; i++) {
+			nodes[i].score = pr[i];
+		}
 
 		groupContext.nodes = nodes;
 		groupContext.edges = edges;

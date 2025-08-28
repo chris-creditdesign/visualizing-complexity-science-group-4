@@ -1,4 +1,5 @@
 import { setContext, getContext } from "svelte";
+import { pagerank } from "$lib/utilities/page_rank";
 
 class GroupContext {
 	nodes: { id: number; group: string; score: 0; name: string }[] = $state([]);
@@ -74,6 +75,14 @@ class GroupContext {
 				this.edges = [...this.edges, { id, source, target }];
 			}
 		}
+
+		// PageRank and write back to nodes
+		const pr = pagerank(this.nodes.length, this.edges);
+
+		for (let i = 0; i < this.nodes.length; i++) {
+			this.nodes[i].score = pr[i];
+		}
+		
 		this.activeNode = null;
 	};
 
