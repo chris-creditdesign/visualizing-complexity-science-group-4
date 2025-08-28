@@ -1,20 +1,24 @@
 <script lang="ts">
 	import { getGroupContext } from "$lib/create_context.svelte";
 
+
+
 	interface Props {
 		cy: number;
 		cx: number;
 		id: number;
 		name: string;
 		group: string;
+		index: number;
 	}
-	let { cy, cx, id, name, group }: Props = $props();
+	let { cy, cx, id, name, group, index}: Props = $props();
 
 	let key = "default";
 
 	const groupContext = getGroupContext(key);
 
 	let this_node_is_active = $derived(groupContext.activeNode === id);
+
 </script>
 
 <style>
@@ -40,7 +44,6 @@
 				transform: translate(-${groupContext.radius}px, -${groupContext.radius}px);
 				background: ${group === "mag" ? "blue" : "orange"};
 				opacity: ${this_node_is_active ? 1 : 0.5};
-
 			`}
 	onclick={() => groupContext.handleNodeClick(id)}
 >

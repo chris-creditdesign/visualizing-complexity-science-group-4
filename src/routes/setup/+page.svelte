@@ -5,6 +5,17 @@
 	import { pagerank } from "$lib/utilities/page_rank";
 	import { computeHomophily } from "$lib/utilities/compute_homophily";
 
+	import char1 from "$lib/assets/characters/maj/P1.png";
+	import char2 from "$lib/assets/characters/maj/P3.png";
+	import char3 from "$lib/assets/characters/maj/P5.png";
+	import char4 from "$lib/assets/characters/maj/P6.png";
+
+	import char5 from "$lib/assets/characters/min/P2.png";
+	import char6 from "$lib/assets/characters/min/P4.png";
+
+	const maj_chars = [char1, char2, char3, char4];
+	const min_chars = [char5, char6];
+
 	const groupContext = getGroupContext("default");
 
 	import { setupStore, type GameMode } from "$lib/setup_store.svelte";
