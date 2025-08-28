@@ -8,46 +8,6 @@
 	let key = "default";
 
 	const groupContext = setGroupContext(key);
-
-	// distance to push the arrow past the target center (radius + padding)
-	const arrowPadding = 4;
-
-	function endpointOutside(
-		source: { cx: number; cy: number },
-		target: { cx: number; cy: number },
-		radius: number,
-		padding = 0
-	) {
-		const dx = target.cx - source.cx;
-		const dy = target.cy - source.cy;
-		const dist = Math.hypot(dx, dy) || 1;
-		const ux = dx / dist;
-		const uy = dy / dist;
-		// point on the target circle perimeter plus padding outside it
-		return {
-			x: target.cx - ux * (radius + padding),
-			y: target.cy - uy * (radius + padding),
-		};
-	}
-
-	// new: compute the start point on the source perimeter towards the target
-	function startpointOutside(
-		source: { cx: number; cy: number },
-		target: { cx: number; cy: number },
-		radius: number,
-		padding = 0
-	) {
-		const dx = target.cx - source.cx;
-		const dy = target.cy - source.cy;
-		const dist = Math.hypot(dx, dy) || 1;
-		const ux = dx / dist;
-		const uy = dy / dist;
-		// point on the source circle perimeter moved outward towards the target
-		return {
-			x: source.cx + ux * (radius + padding),
-			y: source.cy + uy * (radius + padding),
-		};
-	}
 </script>
 
 <style>
@@ -67,29 +27,29 @@
 			<Arrow
 				{key}
 				
-				startX={startpointOutside(
+				startX={groupContext.startpointOutside(
 					groupContext.nodes_with_positions[edge.source],
 					groupContext.nodes_with_positions[edge.target],
 					groupContext.radius,
-					arrowPadding
+					groupContext.arrowPadding
 				).x}
-				startY={startpointOutside(
+				startY={groupContext.startpointOutside(
 					groupContext.nodes_with_positions[edge.source],
 					groupContext.nodes_with_positions[edge.target],
 					groupContext.radius,
-					arrowPadding
+					groupContext.arrowPadding
 				).y}
-				endX={endpointOutside(
+				endX={groupContext.endpointOutside(
 					groupContext.nodes_with_positions[edge.source],
 					groupContext.nodes_with_positions[edge.target],
 					groupContext.radius,
-					arrowPadding
+					groupContext.arrowPadding
 				).x}
-				endY={endpointOutside(
+				endY={groupContext.endpointOutside(
 					groupContext.nodes_with_positions[edge.source],
 					groupContext.nodes_with_positions[edge.target],
 					groupContext.radius,
-					arrowPadding
+					groupContext.arrowPadding
 				).y}
 			/>
 		{/each}
