@@ -3,6 +3,7 @@
 	import { getGroupContext } from "$lib/create_context.svelte";
 	import { generateNetworkDPAH } from "$lib/utilities/generate_network_dpah";
 	import { pagerank } from "$lib/utilities/page_rank";
+	import { computeHomophily } from "$lib/utilities/compute_homophily";
 
 	const groupContext = getGroupContext("default");
 
@@ -68,8 +69,12 @@
 			nodes[i].score = pr[i];
 		}
 
+		const homophily = computeHomophily(nodes, edges);
+		
 		groupContext.nodes = nodes;
 		groupContext.edges = edges;
+		groupContext.mag_homophily = homophily.h_MM;
+		groupContext.min_homophily = homophily.h_mm;
 
 		goto("/game");
 	}

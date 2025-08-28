@@ -1,10 +1,14 @@
 import { setContext, getContext } from "svelte";
 import { pagerank } from "$lib/utilities/page_rank";
+import { computeHomophily } from "./utilities/compute_homophily";
 
 class GroupContext {
 	nodes: { id: number; group: string; score: 0; name: string }[] = $state([]);
 
 	edges: { id: string; source: number; target: number }[] = $state([]);
+
+	mag_homophily = $state(0);
+	min_homophily = $state(0);
 
 	// layout config (keep in sync with Canvas props below)
 	canvasWidth = 800;
@@ -82,7 +86,12 @@ class GroupContext {
 		for (let i = 0; i < this.nodes.length; i++) {
 			this.nodes[i].score = pr[i];
 		}
+
+		const homophily = computeHomophily(this.nodes, this.edges);
 		
+		this.mag_homophily = homophily.h_MM;
+		this.min_homophily = homophily.h_mm;
+
 		this.activeNode = null;
 	};
 

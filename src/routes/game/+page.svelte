@@ -68,7 +68,8 @@
 	</HTML>
 </div>
 
-<p>Active node: {groupContext.activeNode}</p>
+<p>Majority homophily: {groupContext.mag_homophily}</p>
+<p>Minority homophily: {groupContext.min_homophily}</p>
 
 {#each groupContext.nodes as node}
 	<p>{node.name}: {node.score}</p>
