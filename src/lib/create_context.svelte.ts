@@ -2,15 +2,15 @@ import { setContext, getContext } from "svelte";
 
 class GroupContext {
 	nodes = $state([
-		{ id: 0, group: "mag" },
-		{ id: 1, group: "mag" },
-		{ id: 2, group: "mag" },
-		{ id: 3, group: "mag" },
-		{ id: 4, group: "mag" },
-		{ id: 5, group: "mag" },
-		{ id: 6, group: "mag" },
-		{ id: 7, group: "min" },
-		{ id: 8, group: "min" }
+		{ id: 0, group: "mag", score: 0 },
+		{ id: 1, group: "mag", score: 0 },
+		{ id: 2, group: "mag", score: 0 },
+		{ id: 3, group: "mag", score: 0 },
+		{ id: 4, group: "mag", score: 0 },
+		{ id: 5, group: "mag", score: 0 },
+		{ id: 6, group: "mag", score: 0 },
+		{ id: 7, group: "min", score: 0 },
+		{ id: 8, group: "min", score: 0 }
 	]);
 
 	edges: { id: string; source: number; target: number }[] = $state([]);
@@ -24,6 +24,28 @@ class GroupContext {
 	centerX = this.canvasWidth / 2;
 	centerY = this.canvasHeight / 2;
 	ringRadius = Math.min(this.canvasWidth, this.canvasHeight) / 2 - this.margin;
+
+	activeNode: null | number = $state(null);
+
+	handleNodeClick = (nodeId: number) => {
+		if (this.activeNode === null) { 
+			this.activeNode = nodeId;
+			return;
+		} else {
+			let source = this.activeNode;
+			let target = nodeId;
+			let id = `${source}-${target}`;
+
+			let id_array = this.edges.map((e) => e.id);
+
+			if (id_array.includes(id)) {
+				this.edges = this.edges.filter((e) => e.id !== id);
+			} else {
+				this.edges = [...this.edges, { id, source, target }];
+			}
+		}
+		this.activeNode = null;
+	};
 
 	// compute positions around a circle at equal intervals
 	nodes_with_positions = $derived(
