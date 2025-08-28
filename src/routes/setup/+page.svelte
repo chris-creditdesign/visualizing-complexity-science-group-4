@@ -37,13 +37,14 @@
 			numMinority: number,
 			names: string[]
 		) => {
-			const nodes: { id: number; group: string; score: 0; name: string }[] = [];
+			const nodes: { id: number; group: string; score: 0; name: string, img: string }[] = [];
 			for (let i = 0; i < numPlayers; i++) {
 				nodes.push({
 					id: i,
 					group: i < numMinority ? "min" : "mag",
 					score: 0,
 					name: names[i] || `Player ${i + 1}`,
+					img: `/img/${i < numMinority ? "min" : "mag"}_${(i % 4) + 1}.png`,
 				});
 			}
 			return nodes;

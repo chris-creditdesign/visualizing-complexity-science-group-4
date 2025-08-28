@@ -4,7 +4,7 @@ import { computeHomophily } from "./utilities/compute_homophily";
 import { computeEqualityEquity } from "$lib/utilities/compute-equality_equity";
 
 class GroupContext {
-	nodes: { id: number; group: string; score: 0; name: string }[] = $state([]);
+	nodes: { id: number; group: string; score: 0; name: string, img: string }[] = $state([]);
 
 	edges: { id: string; source: number; target: number }[] = $state([]);
 

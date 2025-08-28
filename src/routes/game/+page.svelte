@@ -67,7 +67,7 @@
 		pointerEvents={true}
 	>
 		{#each groupContext.nodes_with_positions as node (node.id)}
-			<Node cy={node.cy} cx={node.cx} id={node.id} name={node.name} group={node.group} />
+			<Node cy={node.cy} cx={node.cx} id={node.id} name={node.name} group={node.group} img={node.img} />
 		{/each}
 	</HTML>
 </div>
