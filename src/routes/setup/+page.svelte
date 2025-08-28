@@ -199,10 +199,14 @@
 		<h2>Select number of players</h2>
 		<div class="row" style="margin-top:8px">
 			{#each [6, 7, 8, 9, 10] as n}
+			 {#if n !== 6}
+				<button class="chip disabled" disabled>{n}</button>
+			 {:else}
 				<button
 					class={`chip ${numPlayers === n ? "active" : ""}`}
 					onclick={() => setPlayers(n)}>{n}</button
 				>
+			 {/if}
 			{/each}
 		</div>
 	</div>
