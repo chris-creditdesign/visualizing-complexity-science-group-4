@@ -5,9 +5,10 @@
 		cy: number;
 		cx: number;
 		id: number;
+		name: string;
 		group: string;
 	}
-	let { cy, cx, id, group }: Props = $props();
+	let { cy, cx, id, name, group }: Props = $props();
 
 	let key = "default";
 
@@ -43,5 +44,5 @@
 			`}
 	onclick={() => groupContext.handleNodeClick(id)}
 >
-	{id}
+	{name}
 </button>
