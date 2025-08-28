@@ -70,7 +70,7 @@
 
 <p>Active node: {groupContext.activeNode}</p>
 
-{#each groupContext.nodes_with_positions as node}
+{#each groupContext.nodes as node}
 	<p>{node.name}: {node.score}</p>
 {/each}
 
