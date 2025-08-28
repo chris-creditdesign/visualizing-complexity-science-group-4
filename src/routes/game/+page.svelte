@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { setGroupContext } from "$lib/create_context.svelte";
+    import { getGroupContext } from "$lib/create_context.svelte";
     import Canvas from "$lib/layouts/canvas/index.svelte";
     import HTML from "$lib/layouts/html/index.svelte";
     import Arrow from "$lib/layouts/canvas/Arrow.svelte";
@@ -7,7 +7,7 @@
 
     let key = "default";
 
-    const groupContext = setGroupContext(key);
+    const groupContext = getGroupContext(key);
 </script>
 
 <style>
@@ -71,7 +71,7 @@
 <p>Active node: {groupContext.activeNode}</p>
 
 {#each groupContext.nodes_with_positions as node}
-	<p>Node {node.id}: {node.score}</p>
+	<p>{node.name}: {node.score}</p>
 {/each}
 
 

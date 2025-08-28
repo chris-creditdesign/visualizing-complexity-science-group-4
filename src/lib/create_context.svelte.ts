@@ -1,17 +1,7 @@
 import { setContext, getContext } from "svelte";
 
 class GroupContext {
-	nodes = $state([
-		{ id: 0, group: "mag", score: 0 },
-		{ id: 1, group: "mag", score: 0 },
-		{ id: 2, group: "mag", score: 0 },
-		{ id: 3, group: "mag", score: 0 },
-		{ id: 4, group: "mag", score: 0 },
-		{ id: 5, group: "mag", score: 0 },
-		{ id: 6, group: "mag", score: 0 },
-		{ id: 7, group: "min", score: 0 },
-		{ id: 8, group: "min", score: 0 }
-	]);
+	nodes: { id: number; group: string; score: 0; name: string }[] = $state([]);
 
 	edges: { id: string; source: number; target: number }[] = $state([]);
 
@@ -68,7 +58,7 @@ class GroupContext {
 	activeNode: null | number = $state(null);
 
 	handleNodeClick = (nodeId: number) => {
-		if (this.activeNode === null) { 
+		if (this.activeNode === null) {
 			this.activeNode = nodeId;
 			return;
 		} else {

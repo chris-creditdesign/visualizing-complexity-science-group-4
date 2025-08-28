@@ -1,6 +1,9 @@
 <script>
 	import favicon from '$lib/assets/favicon.svg';
 	import '$lib/scss/index.scss';
+	import { setGroupContext } from "$lib/create_context.svelte";
+
+	setGroupContext("default");
 
 	let { children } = $props();
 </script>

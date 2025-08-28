@@ -1,5 +1,9 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
+	import { getGroupContext } from "$lib/create_context.svelte";
+
+	const groupContext = getGroupContext("default");
+
     import { setupStore, type GameMode } from '$lib/setup_store.svelte';
 
     let mode: GameMode = $state(setupStore.mode);
@@ -19,10 +23,29 @@
     }
 
     function generateBoard() {
+		
         setupStore.mode = mode;
         setupStore.numPlayers = numPlayers;
         setupStore.numMinority = numMinority;
         setupStore.names = names;
+
+		let generateNodes = (numPlayers: number, numMinority: number, names: string[]) => {
+			const nodes: { id: number; group: string; score: 0; name: string }[] = [];
+			for (let i = 0; i < numPlayers; i++) {
+				nodes.push({
+					id: i,
+					group: i < numMinority ? "min" : "mag",
+					score: 0,
+					name: names[i] || `Player ${i + 1}`
+				});
+			}
+			return nodes;
+		}
+
+		const nodes = generateNodes(setupStore.numPlayers, setupStore.numMinority, setupStore.names);
+
+		groupContext.nodes = nodes;
+
         goto('/game');
     }
 </script>
