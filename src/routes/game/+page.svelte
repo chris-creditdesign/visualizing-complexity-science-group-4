@@ -6,6 +6,7 @@
     import HTML from "$lib/layouts/html/index.svelte";
     import Arrow from "$lib/layouts/canvas/Arrow.svelte";
 	import Node from "$lib/layouts/html/Node.svelte";
+	import Chart from "$lib/layouts/Chart.svelte";
 
     let key = "default";
 
@@ -71,6 +72,8 @@
 		{/each}
 	</HTML>
 </div>
+
+<Chart />
 
 <p>Majority homophily: {groupContext.mag_homophily.at(-1)}</p>
 <p>Minority homophily: {groupContext.min_homophily.at(-1)}</p>
