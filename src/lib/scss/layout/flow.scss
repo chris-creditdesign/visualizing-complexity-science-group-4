@@ -1,0 +1,18 @@
+@at-root :root {
+	--flow-space--global: var(--s-1);
+}
+
+@mixin styles {
+	.l-flow {
+		--flow-space--component: initial;
+		--flow-space: var(--flow-space--component, var(--flow-space--global));
+	}
+
+	.l-flow > * {
+		margin-block: 0;
+	}
+
+	.l-flow > * + * {
+		margin-block-start: var(--flow-space, 1rem);
+	}
+}
