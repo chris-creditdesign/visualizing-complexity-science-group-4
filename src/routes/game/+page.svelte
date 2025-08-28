@@ -53,6 +53,8 @@
 					groupContext.radius,
 					groupContext.arrowPadding
 				).y}
+				lineWidth={2}
+				arrowHeadSize={16}
 			/>
 		{/each}
 	</Canvas>
