@@ -4,6 +4,7 @@
 	import { generateNetworkDPAH } from "$lib/utilities/generate_network_dpah";
 	import { pagerank } from "$lib/utilities/page_rank";
 	import { computeHomophily } from "$lib/utilities/compute_homophily";
+	import { computeEqualityEquity } from "$lib/utilities/compute-equality_equity";
 
 	const groupContext = getGroupContext("default");
 
@@ -70,11 +71,14 @@
 		}
 
 		const homophily = computeHomophily(nodes, edges);
-		
+		const equalityEquity = computeEqualityEquity(nodes);
+
 		groupContext.nodes = nodes;
 		groupContext.edges = edges;
-		groupContext.mag_homophily = homophily.h_MM;
-		groupContext.min_homophily = homophily.h_mm;
+		groupContext.mag_homophily.push(homophily.h_MM);
+		groupContext.min_homophily.push(homophily.h_mm);
+		groupContext.inequality_gini.push(equalityEquity.inequality_gini);
+		groupContext.inequity_ME.push(equalityEquity.inequity_ME);
 
 		goto("/game");
 	}

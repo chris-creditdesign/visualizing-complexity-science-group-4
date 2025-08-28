@@ -1,14 +1,17 @@
 import { setContext, getContext } from "svelte";
 import { pagerank } from "$lib/utilities/page_rank";
 import { computeHomophily } from "./utilities/compute_homophily";
+import { computeEqualityEquity } from "$lib/utilities/compute-equality_equity";
 
 class GroupContext {
 	nodes: { id: number; group: string; score: 0; name: string }[] = $state([]);
 
 	edges: { id: string; source: number; target: number }[] = $state([]);
 
-	mag_homophily = $state(0);
-	min_homophily = $state(0);
+	mag_homophily: number[] = $state([]);
+	min_homophily: number[] = $state([]);
+	inequality_gini: number[] = $state([]);
+	inequity_ME: number[] = $state([]);
 
 	// layout config (keep in sync with Canvas props below)
 	canvasWidth = 800;
@@ -51,9 +54,12 @@ class GroupContext {
 		}
 
 		const homophily = computeHomophily(this.nodes, this.edges);
-		
-		this.mag_homophily = homophily.h_MM;
-		this.min_homophily = homophily.h_mm;
+		const equalityEquity = computeEqualityEquity(this.nodes);
+
+		this.mag_homophily.push(homophily.h_MM);
+		this.min_homophily.push(homophily.h_mm);
+		this.inequality_gini.push(equalityEquity.inequality_gini);
+		this.inequity_ME.push(equalityEquity.inequity_ME);
 
 		this.activeNode = null;
 	};

@@ -72,8 +72,10 @@
 	</HTML>
 </div>
 
-<p>Majority homophily: {groupContext.mag_homophily}</p>
-<p>Minority homophily: {groupContext.min_homophily}</p>
+<p>Majority homophily: {groupContext.mag_homophily.at(-1)}</p>
+<p>Minority homophily: {groupContext.min_homophily.at(-1)}</p>
+<p>Inequality gini: {groupContext.inequality_gini.at(-1)}</p>
+<p>Inequity ME: {groupContext.inequity_ME.at(-1)}</p>
 
 {#each groupContext.nodes as node}
 	<p>{node.name}: {node.score}</p>
