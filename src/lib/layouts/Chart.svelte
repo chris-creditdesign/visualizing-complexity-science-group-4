@@ -13,9 +13,11 @@
 			gini: gini
 		};
 	}));
+
+	let dotPoint = $derived(data.at(-1));
 </script>
-	
-<Plot grid y={{ domain: [0.2, 0.8], label: '↑ Gini' }} x={{ domain: [-0.4, 0.4], label: '↑ ME' }}>
+
+<Plot y={{ domain: [0.2, 0.8], label: 'Inequality' }} x={{ domain: [-0.4, 0.4], label: 'Inequity' }}>
     <defs>
         <LinearGradientX
             id="gradient-line-x"
@@ -35,8 +37,8 @@
                 }
             ]} />
     </defs>
-		<Dot data={data} x="me" y="gini" r={5} fill="red" />
+		<Dot data={[dotPoint]} x="me" y="gini" r={5} fill="#000000" />
 		<Line data={data} x="me" y="gini"  stroke="url(#gradient-line-x)" />
-		<RuleY y={0} />
-		<!-- <RuleX x={0} /> -->
+		<RuleY y={0.2} />
+		<RuleX x={0} />
 </Plot>
