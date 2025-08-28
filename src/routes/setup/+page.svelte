@@ -206,7 +206,7 @@
 	<div class="section">
 		<h2>Select number of minority players</h2>
 		<div class="row" style="margin-top:8px">
-			{#each [1, 2, 3, 4] as m}
+			{#each [2, 3, 4] as m}
 				{#if allowedMinorityOptions().includes(m)}
 					<button
 						class={`chip ${numMinority === m ? "active" : ""}`}
