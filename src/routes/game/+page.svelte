@@ -1,5 +1,7 @@
 <script lang="ts">
     import { getGroupContext } from "$lib/create_context.svelte";
+	import { startpointOutside } from "$lib/utilities/start_point_outside";
+	import { endpointOutside } from "$lib/utilities/end_point_outside";
     import Canvas from "$lib/layouts/canvas/index.svelte";
     import HTML from "$lib/layouts/html/index.svelte";
     import Arrow from "$lib/layouts/canvas/Arrow.svelte";
@@ -27,25 +29,25 @@
 			<Arrow
 				{key}
 				
-				startX={groupContext.startpointOutside(
+				startX={startpointOutside(
 					groupContext.nodes_with_positions[edge.source],
 					groupContext.nodes_with_positions[edge.target],
 					groupContext.radius,
 					groupContext.arrowPadding
 				).x}
-				startY={groupContext.startpointOutside(
+				startY={startpointOutside(
 					groupContext.nodes_with_positions[edge.source],
 					groupContext.nodes_with_positions[edge.target],
 					groupContext.radius,
 					groupContext.arrowPadding
 				).y}
-				endX={groupContext.endpointOutside(
+				endX={endpointOutside(
 					groupContext.nodes_with_positions[edge.source],
 					groupContext.nodes_with_positions[edge.target],
 					groupContext.radius,
 					groupContext.arrowPadding
 				).x}
-				endY={groupContext.endpointOutside(
+				endY={endpointOutside(
 					groupContext.nodes_with_positions[edge.source],
 					groupContext.nodes_with_positions[edge.target],
 					groupContext.radius,
