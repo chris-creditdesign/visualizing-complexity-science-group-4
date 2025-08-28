@@ -1,5 +1,6 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
+    import hero from '$lib/assets/hero_image.png';
 
     function launch() {
         goto('/setup');
@@ -13,31 +14,25 @@
         align-items: center;
         justify-content: center;
         padding: 24px;
-        background: #f6f6f6;
+        background: #C7E9B2;
     }
     .panel {
         width: min(1100px, 92vw);
         height: min(700px, 86vh);
-        background: #ffa6f4;
+        background: #C7E9B2;
         border-radius: 40px;
         display: grid;
         grid-template-rows: 1fr auto auto auto 1fr;
         justify-items: center;
         text-align: center;
-        box-shadow: 0 2px 0 rgba(0,0,0,0.2) inset;
-    }
-    .logo {
-        width: 180px;
-        height: 180px;
-        margin-top: 60px;
-        background: #f2f2f2;
-        border-radius: 32px;
+        
     }
     h1 {
         font-size: clamp(36px, 7vw, 80px);
         margin: 24px 16px 8px;
         font-weight: 900;
         letter-spacing: 1px;
+        color: #3E6E20;
     }
     .cite {
         max-width: 760px;
@@ -52,7 +47,8 @@
         font-weight: 800;
         font-size: clamp(18px, 2.6vw, 24px);
         padding: 16px 28px;
-        border-radius: 18px;
+        border-radius: 30px;
+        border: 2px solid black;
         box-shadow: 0 6px 0 #2b1b31;
         cursor: pointer;
         transition: transform 120ms ease, box-shadow 120ms ease;
@@ -62,12 +58,16 @@
         transform: translateY(3px);
         box-shadow: 0 3px 0 #2b1b31;
     }
+
+    .cite {
+        font-family: --font-family-serif;
+    }
 </style>
 
 <div class="wrap">
     <section class="panel">
-        <div class="logo" aria-hidden="true"></div>
         <h1>SHROOM BOOM!</h1>
+        <img alt="The project logo" src={hero} />
         <p class="cite">
             Espín-Noboa, L., Wagner, C., Strohmaier, M. et al. Inequality and inequity in
             network-based ranking and recommendation algorithms. Sci Rep 12, 2012 (2022).
