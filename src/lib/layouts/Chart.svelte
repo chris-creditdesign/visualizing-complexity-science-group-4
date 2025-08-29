@@ -37,11 +37,17 @@
 	.right {
 		text-align: right;
 	}
+
+	.homophily {
+		font-size: 14px;
+		display: flex;
+		justify-content: space-between;
+	}
 </style>
 
 <div class="l-stack" style="--stack-space: 0;">
 	<div class="legend-top">
-		<span>High Inequality</span>
+		<span>Unbalanced rank</span>
 	</div>
 	<Plot
 		y={{ domain: [0.1, 0.8], label: false }}
@@ -74,8 +80,12 @@
 		<RuleX x={0} strokeWidth={4} />
 	</Plot>
 	<div class="legend-bottom">
-		<span class="left">Orange <br> underrepressented</span>
-		<span class="center"> Balanced <br> garden</span>
+		<span class="left">Purple <br> overrepresented</span>
+		<span class="center"> Fair garden</span>
 		<span class="right">Orange <br> overrepressented</span>
+	</div>
+	<div class="homophily">
+		<p><strong>Purple homophily:</strong> {groupContext.mag_homophily.at(-1)}</p>
+		<p><strong>Orange homophily:</strong> {groupContext.min_homophily.at(-1)}</p>
 	</div>
 </div>
