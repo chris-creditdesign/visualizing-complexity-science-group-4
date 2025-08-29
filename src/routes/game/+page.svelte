@@ -26,7 +26,7 @@
 	}
 
 	img {
-		max-width: 50px;
+		max-width: 30px;
 		height: auto;
 	}
 </style>
@@ -40,10 +40,7 @@
 		--padding-block: var(--s2);
 	"
 >
-	<div
-		class="container"
-		bind:offsetWidth={groupContext.containerWidth}
-	>
+	<div class="container" bind:offsetWidth={groupContext.containerWidth}>
 		<Canvas
 			{key}
 			width={groupContext.containerWidth}
@@ -105,14 +102,18 @@
 		</HTML>
 	</div>
 
-	<div class="container l-stack">
+	<div class="container l-stack" style="--stack-space: var(--s2);">
 		<Chart />
-
-		{#each sorted_nodes as node (node.id)}
-			<p animate:flip={{ duration: 400 }}>
-				<img src={node.img} alt={node.name} />
-				<strong>{node.name}</strong>: {node.score.toFixed(2)}
-			</p>
-		{/each}
+		<div class="l-stack">
+			<h2>Player ranking</h2>
+			<ul class="l-stack" style="--stack-space: var(--s0);">
+				{#each sorted_nodes as node (node.id)}
+					<li animate:flip={{ duration: 400 }}>
+						<img src={node.img} alt={node.name} />
+						<strong>{node.name}</strong>: {node.score.toFixed(2)}
+					</li>
+				{/each}
+			</ul>
+		</div>
 	</div>
 </div>
