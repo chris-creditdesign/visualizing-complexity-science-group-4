@@ -24,9 +24,9 @@
 	}
 
 	.header > h1 {
-			font-size: 50px;
-			color: #3E6E20;
-		}
+		font-size: 50px;
+		color: #3e6e20;
+	}
 	.container {
 		position: relative;
 		aspect-ratio: 1 / 1;
@@ -34,27 +34,26 @@
 	}
 
 	img {
-		max-width: 50px;
+		max-width: 30px;
 		height: auto;
 	}
 
 	.chart-container {
-		background-color: #F0F0F0;
+		background-color: #f0f0f0;
 		padding: 20px;
 		border-radius: var(--s1);
 	}
 
 	.ranking-container {
-		background-color: #F0F0F0;
+		background-color: #f0f0f0;
 		padding: 20px;
 		border-radius: var(--s1);
 	}
 </style>
 
 <div class="header">
-	<h1> SHROOM BOOM</h1>
+	<h1>SHROOM BOOM</h1>
 </div>
-
 
 <div
 	class="l-sidebar e-sidebar-on-right u-padding-block u-padding-inline u-column"
@@ -65,11 +64,7 @@
 		--padding-block: var(--s2);
 	"
 >
-
-	<div
-		class="container"
-		bind:offsetWidth={groupContext.containerWidth}
-	>
+	<div class="container" bind:offsetWidth={groupContext.containerWidth}>
 		<Canvas
 			{key}
 			width={groupContext.containerWidth}
@@ -135,14 +130,14 @@
 		<div class="chart-container">
 			<Chart />
 		</div>
-		
+
 		<div class="ranking-container">
 			{#each sorted_nodes as node (node.id)}
-			<p animate:flip={{ duration: 400 }}>
-				<img src={node.img} alt={node.name} />
-				<strong>{node.name}</strong>: {node.score.toFixed(2)}
-			</p>
-		{/each}
+				<p animate:flip={{ duration: 400 }}>
+					<img src={node.img} alt={node.name} />
+					<strong>{node.name}</strong>: {node.score.toFixed(2)}
+				</p>
+			{/each}
 		</div>
 	</div>
 </div>
