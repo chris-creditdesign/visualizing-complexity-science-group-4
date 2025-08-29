@@ -52,7 +52,8 @@
 	<Plot
 		y={{ domain: [0.1, 0.8], label: false }}
 		x={{ domain: [-0.4, 0.4], label: false }}
-		marginRight={40}
+		marginRight={0}
+		axes={false}
 	>
 		<defs>
 			<LinearGradientX
@@ -85,7 +86,7 @@
 		<span class="right">Orange <br> overrepressented</span>
 	</div>
 	<div class="homophily">
-		<p><strong>Purple homophily:</strong> {groupContext.mag_homophily.at(-1)}</p>
-		<p><strong>Orange homophily:</strong> {groupContext.min_homophily.at(-1)}</p>
+		<p><strong>Purple homophily:</strong> {groupContext.mag_homophily.at(-1)?.toFixed(2)}</p>
+		<p><strong>Orange homophily:</strong> {groupContext.min_homophily.at(-1)?.toFixed(2)}</p>
 	</div>
 </div>

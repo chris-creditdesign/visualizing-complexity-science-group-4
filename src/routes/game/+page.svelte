@@ -165,7 +165,7 @@
 			{#each sorted_nodes as node (node.id)}
 				<p animate:flip={{ duration: 400 }}>
 					<img src={node.img} alt={node.name} />
-					<strong>{node.name}</strong>: {node.score.toFixed(2)}
+					<strong>{node.name}</strong>: {(node.score * 100).toFixed(0)}
 				</p>
 			{/each}
 		</div>
