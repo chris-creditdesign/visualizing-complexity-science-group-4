@@ -19,6 +19,14 @@
 </script>
 
 <style>
+	.header {
+		padding-left: 20px;
+	}
+
+	.header > h1 {
+			font-size: 50px;
+			color: #3E6E20;
+		}
 	.container {
 		position: relative;
 		aspect-ratio: 1 / 1;
@@ -29,7 +37,24 @@
 		max-width: 50px;
 		height: auto;
 	}
+
+	.chart-container {
+		background-color: #F0F0F0;
+		padding: 20px;
+		border-radius: var(--s1);
+	}
+
+	.ranking-container {
+		background-color: #F0F0F0;
+		padding: 20px;
+		border-radius: var(--s1);
+	}
 </style>
+
+<div class="header">
+	<h1> SHROOM BOOM</h1>
+</div>
+
 
 <div
 	class="l-sidebar e-sidebar-on-right u-padding-block u-padding-inline u-column"
@@ -40,6 +65,7 @@
 		--padding-block: var(--s2);
 	"
 >
+
 	<div
 		class="container"
 		bind:offsetWidth={groupContext.containerWidth}
@@ -106,13 +132,17 @@
 	</div>
 
 	<div class="container l-stack">
-		<Chart />
-
-		{#each sorted_nodes as node (node.id)}
+		<div class="chart-container">
+			<Chart />
+		</div>
+		
+		<div class="ranking-container">
+			{#each sorted_nodes as node (node.id)}
 			<p animate:flip={{ duration: 400 }}>
 				<img src={node.img} alt={node.name} />
 				<strong>{node.name}</strong>: {node.score.toFixed(2)}
 			</p>
 		{/each}
+		</div>
 	</div>
 </div>
