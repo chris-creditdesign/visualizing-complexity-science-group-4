@@ -1,5 +1,5 @@
 <script>
-	import { Plot, Line, Dot, LinearGradientX, RuleX, RuleY } from "svelteplot";
+	import { Plot, Line, Dot, LinearGradientX, RuleX, RuleY, Rect } from "svelteplot";
 	// import aapl from './aapl.csv';
 	import { getGroupContext } from "$lib/create_context.svelte";
 
@@ -17,6 +17,8 @@
 	);
 
 	let dotPoint = $derived(data.at(-1));
+
+	
 </script>
 
 <style>
@@ -75,6 +77,9 @@
 				]}
 			/>
 		</defs>
+		<Rect data={[{x1: -0.4, y1: 0.1, x2: -0.14, y2: 0.8}]} x1="x1" x2="x2" y1="y1" y2="y2" fill="#F1D4FF" />
+		<Rect data={[{x1: -0.14, y1: 0.1, x2: 0.14, y2: 0.8}]} x1="x1" x2="x2" y1="y1" y2="y2" fill="#CAF4AF" />
+		<Rect data={[{x1: 0.14, y1: 0.1, x2: 0.4, y2: 0.8}]} x1="x1" x2="x2" y1="y1" y2="y2" fill="#FFD5A2" />
 		<Line {data} x="me" y="gini" stroke="url(#gradient-line-x)" strokeWidth={4} />
 		<Dot data={[dotPoint]} x="me" y="gini" r={8} fill="#000000" />
 		<RuleY y={0.1} strokeWidth={4} />

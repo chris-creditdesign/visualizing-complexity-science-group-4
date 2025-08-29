@@ -57,7 +57,7 @@
 	}
 </style>
 
-<div class="header">
+<div class="header u-column">
 	<h1>SHROOM BOOM</h1>
 </div>
 
@@ -66,7 +66,7 @@
 	style="
 		--sidebar-width--component: 30%;
 		--sidebar-content-min-width--component: 35%;
-		--sidebar-space: var(--s4);
+		--sidebar-space: var(--s1);
 		--padding-block: var(--s2);
 	"
 >
