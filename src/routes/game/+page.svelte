@@ -4,6 +4,7 @@
 	import { startpointOutside } from "$lib/utilities/start_point_outside";
 	import { endpointOutside } from "$lib/utilities/end_point_outside";
 	import Canvas from "$lib/layouts/canvas/index.svelte";
+	import Text from "$lib/layouts/canvas/Text.svelte";
 	import HTML from "$lib/layouts/html/index.svelte";
 	import Arrow from "$lib/layouts/canvas/Arrow.svelte";
 	import Node from "$lib/layouts/html/Node.svelte";
@@ -65,6 +66,26 @@
 	"
 >
 	<div class="container" bind:offsetWidth={groupContext.containerWidth}>
+
+		<HTML
+			paddingLeft={groupContext.padding.left}
+			paddingTop={groupContext.padding.top}
+			paddingBottom={groupContext.padding.bottom}
+			paddingRight={groupContext.padding.right}
+			pointerEvents={true}
+		>
+			{#each groupContext.nodes_with_positions as node (node.id)}
+				<Node
+					cy={node.cy}
+					cx={node.cx}
+					id={node.id}
+					name={node.name}
+					group={node.group}
+					img={node.img}
+				/>
+			{/each}
+		</HTML>
+		
 		<Canvas
 			{key}
 			width={groupContext.containerWidth}
@@ -104,26 +125,30 @@
 					arrowHeadSize={16}
 				/>
 			{/each}
-		</Canvas>
 
-		<HTML
-			paddingLeft={groupContext.padding.left}
-			paddingTop={groupContext.padding.top}
-			paddingBottom={groupContext.padding.bottom}
-			paddingRight={groupContext.padding.right}
-			pointerEvents={true}
-		>
 			{#each groupContext.nodes_with_positions as node (node.id)}
-				<Node
-					cy={node.cy}
-					cx={node.cx}
-					id={node.id}
-					name={node.name}
-					group={node.group}
-					img={node.img}
+				<Text
+					x={node.cx +
+						((node.cx - groupContext.centerX) /
+							(Math.hypot(
+								node.cx - groupContext.centerX,
+								node.cy - groupContext.centerY
+							) || 1)) *
+							groupContext.radius * 1.5}
+					y={node.cy +
+						((node.cy - groupContext.centerY) /
+							(Math.hypot(
+								node.cx - groupContext.centerX,
+								node.cy - groupContext.centerY
+							) || 1)) *
+							groupContext.radius * 1.5}
+					text={node.name}
+					{key}
 				/>
 			{/each}
-		</HTML>
+		</Canvas>
+
+
 	</div>
 
 	<div class="container l-stack">
