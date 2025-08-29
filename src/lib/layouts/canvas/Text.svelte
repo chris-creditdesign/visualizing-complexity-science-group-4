@@ -35,7 +35,7 @@
 	});
 
 	function drawFn(ctx: CanvasRenderingContext2D) {
-		ctx.font = "16px 'Graphik Nature l Web'";
+		ctx.font = "bold 16px 'Helvetica'";
 		if (withBox) {
 			width = ctx.measureText(text).width + padding;
 			height = parseInt(ctx.font, 10) + padding;
