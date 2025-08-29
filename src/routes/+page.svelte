@@ -69,9 +69,7 @@
         <h1>SHROOM BOOM!</h1>
         <img alt="The project logo" src={hero} />
         <p class="cite">
-            Espín-Noboa, L., Wagner, C., Strohmaier, M. et al. Inequality and inequity in
-            network-based ranking and recommendation algorithms. Sci Rep 12, 2012 (2022).
-            https://doi.org/10.1038/s41598-022-05434-1
+            In the forest, orange mushrooms rule the ground while blue mushrooms fight to grow. Every connection you make reshapes the network and the balance of power.
         </p>
         <button class="cta" onclick={launch}>Launch Game</button>
     </section>
