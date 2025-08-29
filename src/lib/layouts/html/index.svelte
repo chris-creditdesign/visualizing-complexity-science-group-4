@@ -21,8 +21,6 @@
 <style>
 	div {
 		position: absolute;
-		background: #C7E9B2;
-		border-radius: var(--s1);
 	}
 </style>
 

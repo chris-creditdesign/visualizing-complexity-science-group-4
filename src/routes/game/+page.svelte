@@ -34,6 +34,11 @@
 		max-width: 800px;
 	}
 
+	.node-container {
+		background: #C7E9B2;
+		border-radius: var(--s1);
+	}
+
 	img {
 		max-width: 30px;
 		height: auto;
@@ -65,7 +70,7 @@
 		--padding-block: var(--s2);
 	"
 >
-	<div class="container" bind:offsetWidth={groupContext.containerWidth}>
+	<div class="container node-container" bind:offsetWidth={groupContext.containerWidth}>
 
 		<HTML
 			paddingLeft={groupContext.padding.left}
