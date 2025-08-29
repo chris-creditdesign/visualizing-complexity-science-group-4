@@ -28,6 +28,14 @@
 	.legend-bottom {
 		display: flex;
 		justify-content: space-between;
+		font-size: 14px;
+	}
+	.center{
+		text-align: center;
+	}
+
+	.right {
+		text-align: right;
 	}
 </style>
 
@@ -36,7 +44,7 @@
 		<span>High Inequality</span>
 	</div>
 	<Plot
-		y={{ domain: [0.2, 0.8], label: false }}
+		y={{ domain: [0.1, 0.8], label: false }}
 		x={{ domain: [-0.4, 0.4], label: false }}
 		marginRight={40}
 	>
@@ -62,12 +70,12 @@
 		</defs>
 		<Line {data} x="me" y="gini" stroke="url(#gradient-line-x)" strokeWidth={4} />
 		<Dot data={[dotPoint]} x="me" y="gini" r={8} fill="#000000" />
-		<RuleY y={0.2} strokeWidth={4} />
+		<RuleY y={0.1} strokeWidth={4} />
 		<RuleX x={0} strokeWidth={4} />
 	</Plot>
 	<div class="legend-bottom">
-		<span>Low Inequity</span>
-		<span>Medium Inequity</span>
-		<span>High Inequity</span>
+		<span class="left">Orange <br> underrepressented</span>
+		<span class="center"> Balanced <br> garden</span>
+		<span class="right">Orange <br> overrepressented</span>
 	</div>
 </div>
